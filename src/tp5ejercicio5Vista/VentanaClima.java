@@ -100,23 +100,34 @@ public class VentanaClima extends JFrame implements Observer {
 	 */
 	//Metodo que actualiza el orden de la lista de la estacion y luego copia el historial de la estacion al historial de la ventana
 	//Despues de eso recorre el historial nuevo, lo va agregando a un nuevo modelo de la lista y al final la setea
+	
 	public void ordenarPorTemperatura(){
-		lbltemperaturaActual.setText("Actualizando Climas...");
+		this.estacion.pararServicio();
+		this.modeloLista.clear();
+		lbltemperaturaActual.setText("Ordenando climas...");
 		this.estacion.ordenaPorTemperatura();
 		this.historial.clear();
 		this.historial=this.estacion.getClimas();
-		for (Clima c : this.historial){
-			actualizarHistorial(c);
+		for (Clima unclima : this.historial){
+			modeloLista.addElement(dameUnString(unclima.getUltimaActualizacion())+" - "+unclima.getCiudad()+" "+(int)unclima.getTemperaturaActual()+"º - "+unclima.getCondicion());
 		}
+		JOptionPane.showMessageDialog(this, "Se ordenaron los climas");
+		lbltemperaturaActual.setText("Buscando climas nuevos...");
+		this.estacion.iniciarServicio();
 	}
 	public void ordenarporfecha(){
-		lbltemperaturaActual.setText("Actualizando Climas...");
+		this.estacion.pararServicio();
+		this.modeloLista.clear();
+		lbltemperaturaActual.setText("Ordenando climas...");
 		this.estacion.ordenarPorHora();
 		this.historial.clear();
 		this.historial=this.estacion.getClimas();
-		for (Clima c: this.historial){
-			actualizarHistorial(c);
+		for (Clima unclima : this.historial){
+			modeloLista.add(0,dameUnString(unclima.getUltimaActualizacion())+" - "+unclima.getCiudad()+" "+(int)unclima.getTemperaturaActual()+"º - "+unclima.getCondicion());
 		}
+		JOptionPane.showMessageDialog(this, "Se ordenaron los climas");
+		lbltemperaturaActual.setText("Buscando climas nuevos...");
+		this.estacion.iniciarServicio();
 	}
 	public void limpiarLista(){
 		modeloLista.clear();
@@ -271,5 +282,6 @@ public class VentanaClima extends JFrame implements Observer {
 		Clima clima = (Clima) unClima;
 		actualizarHistorial(clima);
 		actualizarLabel(clima);
+		
 	}
 }

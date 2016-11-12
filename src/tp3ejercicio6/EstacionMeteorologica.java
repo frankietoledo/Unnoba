@@ -10,6 +10,7 @@ import com.github.fedy2.weather.data.Channel;
 
 import ar.edu.unnoba.WeatherService;
 import ar.edu.unnoba.util.City;
+import sun.awt.image.ImageRepresentation;
 import sun.util.locale.UnicodeLocaleExtension;
 import tp1ejercicio6.Clima;
 import tp1ejercicio6.Direccion;
@@ -96,10 +97,14 @@ public class EstacionMeteorologica extends Observable implements Observer {
 	public void ordenaPorTemperatura(){
 		List<Clima> copia=new ArrayList<Clima>(historial);
 		Collections.sort(copia,new CompararPorTemperatura());
+		historial.clear();
+		historial=new ArrayList<Clima>(copia);
 	}
 	public void ordenarPorHora(){
 		ArrayList<Clima> copia=new ArrayList<Clima> (historial);
 		Collections.sort(copia,new CompararPorHora());
+		historial.clear();
+		historial=new ArrayList<Clima>(copia);
 	}
 	//Constructores
 	public EstacionMeteorologica(String ciudad,Clima unClima) {
